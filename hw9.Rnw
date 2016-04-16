@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{amsmath}
+
+\usepackage{enumitem}
+\setlist{parsep=5.5pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Stat 537 Homework 9}
+\chead{April 21, 2016}
+\rhead{Andrea Mack and Kenny Flagg}
+\setlength{\headheight}{18pt}
+\setlength{\headsep}{2pt}
+
+\title{Stat 537 Homework 9}
+\author{Andrea Mack and Kenny Flagg}
+\date{April 21, 2016}
+
+<<setup, echo=FALSE, message=FALSE, cache=FALSE>>=
+require(knitr)
+opts_chunk$set(echo = FALSE, comment = NA, width = 80,
+               fig.align = 'center', fig.width = 6, fig.height = 3,
+               out.width = '6in', out.height = '3in', size = 'footnotesize',
+               dev = 'pdf', dev.args = list(pointsize = 8))
+knit_theme$set('print')
+
+require(xtable)
+require(psych)
+require(lavaan)
+require(polycor)
+@
+
+\begin{document}
+
+\maketitle
+
+{\it You can works in groups of up to 3, no restrictions on composition.}
+
+{\it You can find the survey used to generate the "eat" labeled questions you will be working with here: \verb|https://psychology-tools.com/eat-26/|}
+
+{\it The numbers on the ``eat'' questions are the same as in the online survey although the version you have used a 7-point Likert scale (with 7 a ) instead of the 6 point version on the website. bmi is a version of the body mass index, wsb is a score on western standards of beauty with (I assume) higher scores relating to higher self-perceived beauty of the subject, and anx is an anxiety score with (I assume) higher scores relating to higher anxiety.}
+
+{\it Note that there are some missing values in the data set that were coded as -99. The following code will get you going on this but is not complete:}
+
+<<cleanup, warning=FALSE, fig.height=6, out.height='6in', cache=TRUE>>=
+eatingatt_data <- read.csv('eatingattitudes.csv', na.strings = -99)
+
+# Cleaning up the data set to allow focus on other aspects -- could retain nearly 60 partial observations
+ead_c <- na.omit(eatingatt_data)
+describe(ead_c)
+
+# Rename eat variables and then proceed with the following...
+cor.plot(mat.sort(cor(ead_c[,-c(1, 12:14)])))
+
+edo <- apply(ead_c[,-c(1, 12:14)], 2, ordered)
+hetcor(edo)
+@
+
+\begin{enumerate}
+
+\item %1
+{\it First make a table of the questions being used here and rename each ``eat'' variable to make it more explicit about what the question was focused on.}
+
+{\it Using your new names re-run the provided cor.plot code (you do not need to report the previous plot). I had some plot margins too large issues in compiling in markdown with this plot until I changed the figure size. You can always do it in outside of markdown and load the figure back into the final compile if these options don't work for you. Then:}
+
+\item %2
+{\it Discuss the correlation matrix pattern.}
+
+\item %3
+{\it Use the help information to explain how mat.sort() sorted the correlation matrix.}
+
+\item %4
+{\it The previous result was using Pearson correlation. Identify a more appropriate correlation measure for these data (report it). Then estimate the correlation matrix using functions from the polycor package (not psych) and compare the correlations to those produced by Pearson correlation here, comparing the estimates and remaking the correlation matrix plot.}
+
+\item %5
+{\it Using your better named variables and your ``better'' correlation matrix, fit a CFA that puts eat21, eat3, and eat18 together on one latent trait and the other eat variables on the other. To make sure it is using your correlation matrix, use sample.cov and sample.nobs and do not provide the data set to the cfa function from lavaan. Report the summary output from the model with the latent trait variances fixed at one.}
+
+\item %6
+{\it Make a path diagram of the resulting model.}
+
+\item %7
+{\it Discuss the quality of the fit of the model using (a) the goodness of fit test and (b) one of the other measures of quality of fit. Make sure to fully report the numerical results as well as discussing what this tells you about the model.}
+
+\item %8
+{\it Discuss all the loadings -- are there any that potentially could be dropped?}
+
+\item %9
+{\it Report and discuss the disattenuated correlation of the latent traits. Does this make sense in this application?}
+
+\item %10
+{\it Add the other three variables to your correlation matrix using appropriate correlation measures. Note the types of correlations you are using (you can discuss this generally). Also update your correlation matrix plot using this matrix.}
+
+\item %11
+{\it Fit an SEM that retains the same latent variable construction as in the CFA but that also uses bmi, anx, and wsb as exogenous variables that explain both of the latent traits. Fit the model and report the summary. Also make a path diagram.}
+
+\item %12
+{\it Report the evidence and discuss the interpretation of the two tests for the paths that relate bmi to each of the latent traits.}
+
+\item %13
+{\it Generally explain what this model is exploring.}
+
+\end{enumerate}
+
+\pagebreak
+\section*{R Code Appendix}
+
+\subsection*{Problem 1}
+
+<<cleanup, echo=TRUE, eval=FALSE>>=
+@
+
+\subsection*{Problem 2}
+
+\subsection*{Problem 3}
+
+\subsection*{Problem 4}
+
+\subsection*{Problem 5}
+
+\subsection*{Problem 6}
+
+\subsection*{Problem 7}
+
+\subsection*{Problem 8}
+
+\subsection*{Problem 9}
+
+\subsection*{Problem 10}
+
+\subsection*{Problem 11}
+
+\subsection*{Problem 12}
+
+\subsection*{Problem 13}
+
+\end{document}
