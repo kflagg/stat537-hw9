@@ -112,6 +112,16 @@ het <- hetcor(edo)
 cor.plot(mat.sort(het$correlations))
 @
 
+<<compare.cors, fig.height=4.5, out.height='4.5in', fig.width=4.5, out.width='4.5in', cache=TRUE, dependson='het.plot'>>=
+plot(jitter(het$correlations)~jitter(cor(ead_c[,-c(1, 12:14)])),
+     main = 'Comparison of Correlations',
+     xlab = 'Pearson Correlation', ylab = 'Polychoric Correlation',
+     col = rgb(0, 0, 0, 0.25), pch = 19)
+abline(0, 1, lty = 2)
+@
+
+For weakly correlated variables (with correlations under 0.4), the Pearson and polychoric correlations are very similar. For moderate and strong correlations (above 0.4), the polychoric correltions are slightly larger.
+
 \item %5
 {\it Using your better named variables and your ``better'' correlation matrix, fit a CFA that puts eat21, eat3, and eat18 together on one latent trait and the other eat variables on the other. To make sure it is using your correlation matrix, use sample.cov and sample.nobs and do not provide the data set to the cfa function from lavaan. Report the summary output from the model with the latent trait variances fixed at one.}
 
