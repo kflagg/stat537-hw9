@@ -51,10 +51,6 @@ eatingatt_data <- read.csv('eatingattitudes.csv', na.strings = -99)
 # Cleaning up the data set to allow focus on other aspects -- could retain nearly 60 partial observations
 ead_c <- na.omit(eatingatt_data)
 describe(ead_c)
-
-# Rename eat variables and then proceed with the following...
-edo <- apply(ead_c[,-c(1, 12:14)], 2, ordered)
-hetcor(edo)
 @
 
 \begin{enumerate}
@@ -87,7 +83,6 @@ anx & anxiety score\\
 <<cor.plot, fig.height=6, out.height='6in'>>=
 colnames(ead_c) <- c("id", "ow", "avoid", "guilt", "occ", "burn", "fat", "empty", "food", "control", "time", "bmi", "wsb", "anx")
 cor.plot(mat.sort(cor(ead_c[,-c(1, 12:14)])))
-
 @
 
 \item %2
@@ -107,6 +102,15 @@ All the variable have positive correlations.
 
 \item %4
 {\it The previous result was using Pearson correlation. Identify a more appropriate correlation measure for these data (report it). Then estimate the correlation matrix using functions from the polycor package (not psych) and compare the correlations to those produced by Pearson correlation here, comparing the estimates and remaking the correlation matrix plot.}
+
+These variables are all ordered categorical (Likert-scale) variables, so it would be more appropriate to use polychoric correlation.
+
+<<het.plot, warning=FALSE, fig.height=6, out.height='6in', cache=TRUE>>=
+# Rename eat variables and then proceed with the following...
+edo <- apply(ead_c[,-c(1, 12:14)], 2, ordered)
+het <- hetcor(edo)
+cor.plot(mat.sort(het$correlations))
+@
 
 \item %5
 {\it Using your better named variables and your ``better'' correlation matrix, fit a CFA that puts eat21, eat3, and eat18 together on one latent trait and the other eat variables on the other. To make sure it is using your correlation matrix, use sample.cov and sample.nobs and do not provide the data set to the cfa function from lavaan. Report the summary output from the model with the latent trait variances fixed at one.}
