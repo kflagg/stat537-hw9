@@ -84,7 +84,7 @@ anx & anxiety score\\
 
 {\it Using your new names re-run the provided cor.plot code (you do not need to report the previous plot). I had some plot margins too large issues in compiling in markdown with this plot until I changed the figure size. You can always do it in outside of markdown and load the figure back into the final compile if these options don't work for you. Then:}
 
-<<cor.plot>>=
+<<cor.plot, fig.height=6, out.height='6in'>>=
 colnames(ead_c) <- c("id", "ow", "avoid", "guilt", "occ", "burn", "fat", "empty", "food", "control", "time", "bmi", "wsb", "anx")
 cor.plot(mat.sort(cor(ead_c[,-c(1, 12:14)])))
 
@@ -97,14 +97,13 @@ It appears being preoccupied with food has a strong positive correlation with fe
 
 Being preoccupied with having fat on the body was strongly positively associated with feeling guilty after eating, and both of these have strong positive associations with being preoccupied with a desire to be thinner.
 
-All correlations were positive.
+All the variable have positive correlations.
 
-Should we desribe the moderate correlations as well? There are a lot.
-
+\pagebreak
 \item %3
 {\it Use the help information to explain how mat.sort() sorted the correlation matrix.}
 
-{\texttt mat.sort()} is defaulting to sorting the variables in descending order based on loading from a factor analysis (exploratory?) on the correlation matrix between the variables. {\it This makes the resulting correlation matrix sorted in descending order of amount of total variation explained in the direction of the most variation.}
+{\texttt mat.sort()} is defaulting to sorting the variables in descending order based on loading from an exploratory factor analysis on the correlation matrix between the variables. This sorts the manifest variables by the amount of variation in common with the first latent factor, in decreasing order.
 
 \item %4
 {\it The previous result was using Pearson correlation. Identify a more appropriate correlation measure for these data (report it). Then estimate the correlation matrix using functions from the polycor package (not psych) and compare the correlations to those produced by Pearson correlation here, comparing the estimates and remaking the correlation matrix plot.}
