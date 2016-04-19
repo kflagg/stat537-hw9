@@ -81,7 +81,8 @@ anx & anxiety score\\
 {\it Using your new names re-run the provided cor.plot code (you do not need to report the previous plot). I had some plot margins too large issues in compiling in markdown with this plot until I changed the figure size. You can always do it in outside of markdown and load the figure back into the final compile if these options don't work for you. Then:}
 
 <<cor.plot, fig.height=6, out.height='6in'>>=
-colnames(ead_c) <- c("id", "ow", "avoid", "guilt", "occ", "burn", "fat", "empty", "food", "control", "time", "bmi", "wsb", "anx")
+colnames(ead_c) <- c("id", "ow", "avoid", "guilt", "occ", "burn", "fat",
+                     "empty", "food", "control", "time", "bmi", "wsb", "anx")
 cor.plot(mat.sort(cor(ead_c[,-c(1, 12:14)])))
 @
 
@@ -120,10 +121,20 @@ plot(jitter(het$correlations)~jitter(cor(ead_c[,-c(1, 12:14)])),
 abline(0, 1, lty = 2)
 @
 
-For weakly correlated variables (with correlations under 0.4), the Pearson and polychoric correlations are very similar. For moderate and strong correlations (above 0.4), the polychoric correltions are slightly larger.
+For weakly correlated variables (with correlations under 0.4), the Pearson and polychoric correlations are very similar. For moderately and strongly associated variable (correlations above 0.4), the polychoric correltions are slightly larger.
 
 \item %5
 {\it Using your better named variables and your ``better'' correlation matrix, fit a CFA that puts eat21, eat3, and eat18 together on one latent trait and the other eat variables on the other. To make sure it is using your correlation matrix, use sample.cov and sample.nobs and do not provide the data set to the cfa function from lavaan. Report the summary output from the model with the latent trait variances fixed at one.}
+
+<<cfa, cache=TRUE, dependson='het.plot'>>=
+# eat21 is time, eat3 is food, eat18 is control
+cfa.model1 <- '
+  preoccupied.with.food =~ food + control + time
+  other =~ ow + avoid + guilt + occ + burn + fat + empty
+'
+het.cfa <- cfa(model = cfa.model1, sample.cov = as.matrix(het), sample.nobs = nrow(edo))
+summary(het.cfa)
+@
 
 \item %6
 {\it Make a path diagram of the resulting model.}
@@ -158,14 +169,20 @@ For weakly correlated variables (with correlations under 0.4), the Pearson and p
 
 <<cleanup, echo=TRUE, eval=FALSE>>=
 @
-
-\subsection*{Problem 2}
-
-\subsection*{Problem 3}
+<<cor.plot, echo=TRUE, eval=FALSE>>=
+@
 
 \subsection*{Problem 4}
 
+<<hetplot, echo=TRUE, eval=FALSE>>=
+@
+<<compare.cors, echo=TRUE, eval=FALSE>>=
+@
+
 \subsection*{Problem 5}
+
+<<cfa, echo=TRUE, eval=FALSE>>=
+@
 
 \subsection*{Problem 6}
 
