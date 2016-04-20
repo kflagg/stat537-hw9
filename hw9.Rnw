@@ -30,7 +30,6 @@ require(xtable)
 require(psych)
 require(lavaan)
 require(polycor)
-require(psych)
 require(semPlot)
 @
 
