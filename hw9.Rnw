@@ -31,6 +31,7 @@ require(psych)
 require(lavaan)
 require(polycor)
 require(psych)
+require(semPlot)
 @
 
 \begin{document}
@@ -133,11 +134,16 @@ cfa.model1 <- '
   other =~ ow + avoid + guilt + occ + burn + fat + empty
 '
 het.cfa <- cfa(model = cfa.model1, sample.cov = as.matrix(het), sample.nobs = nrow(edo), std.lv = TRUE)
-summary(het.cfa)
+summary(het.cfa, fit.measures = TRUE)
 @
 
 \item %6
 {\it Make a path diagram of the resulting model.}
+
+<<paths, cache=TRUE, dependson='cfa'>>=
+par(cex = 2)
+semPaths(cfa.model1, 'par')
+@
 
 \item %7
 {\it Discuss the quality of the fit of the model using (a) the goodness of fit test and (b) one of the other measures of quality of fit. Make sure to fully report the numerical results as well as discussing what this tells you about the model.}
