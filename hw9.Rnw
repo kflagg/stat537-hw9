@@ -133,12 +133,7 @@ cfa.model1 <- '
   Other =~ ow + avoid + guilt + occ + burn + fat + empty
 '
 het.cfa <- cfa(model = cfa.model1, sample.cov = as.matrix(het), sample.nobs = nrow(edo), std.lv = TRUE)
-<<<<<<< Updated upstream
 summary(het.cfa, fit.measures = TRUE)
-=======
-summary(het.cfa)
-
->>>>>>> Stashed changes
 @
 
 \item %6
