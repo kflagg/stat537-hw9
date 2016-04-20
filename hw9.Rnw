@@ -132,7 +132,7 @@ cfa.model1 <- '
   preoccupied.with.food =~ food + control + time
   other =~ ow + avoid + guilt + occ + burn + fat + empty
 '
-het.cfa <- cfa(model = cfa.model1, sample.cov = as.matrix(het), sample.nobs = nrow(edo))
+het.cfa <- cfa(model = cfa.model1, sample.cov = as.matrix(het), sample.nobs = nrow(edo), std.lv = TRUE)
 summary(het.cfa)
 @
 
