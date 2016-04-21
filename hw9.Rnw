@@ -83,6 +83,7 @@ anx & anxiety score\\
 <<cor.plot, fig.height=6, out.height='6in'>>=
 colnames(ead_c) <- c("id", "ow", "avoid", "guilt", "occ", "burn", "fat",
                      "empty", "food", "control", "time", "bmi", "wsb", "anx")
+poly.cor <- mat.sort(cor(ead_c[,-c(1, 12:14)]))
 cor.plot(mat.sort(cor(ead_c[,-c(1, 12:14)])))
 @
 
@@ -171,11 +172,38 @@ The correlation between the true preoccupied with food variable and the true oth
 \item %10
 {\it Add the other three variables to your correlation matrix using appropriate correlation measures. Note the types of correlations you are using (you can discuss this generally). Also update your correlation matrix plot using this matrix.}
 
-<<mixedcor>>=
-mixed.cor(ead_c[,-1])
+<<mixedcor, cache = TRUE>>=
+ead_c1 <- ead_c[,-1]
+ead_c1$ow <- ordered(ead_c$ow)
+ead_c1$avoid <- ordered(ead_c$avoid)
+ead_c1$guilt <- ordered(ead_c$guilt)
+ead_c1$occ <- ordered(ead_c$occ)
+ead_c1$burn <- ordered(ead_c$burn)
+ead_c1$fat <- ordered(ead_c$fat)
+ead_c1$empty <- ordered(ead_c$empty)
+ead_c1$food <- ordered(ead_c$food)
+ead_c1$control <- ordered(ead_c$control)
+ead_c1$time <- ordered(ead_c$time)
+ead_c1$wsb <- ordered(ead_c$wsb)
+ead_c1$anx <- ordered(ead_c$anx)
+
+
+het1 <- hetcor(ead_c1, use = "pairwise")
+het1
+cor.plot(mat.sort(het1))
 @
 
-Why did this output a NULL line?
+We used the {\texttt hetcor} function from the {\texttt polycor} package to re-calculate the correlation matrix with all 14 variables. The function used polychoric correlations for all pairs of variables except variables paired with {\texttt bmi}, in which polyserial correlation was used.
+
+<<compare>>=
+subset.rho <- mix.cor$rho[-c(11:14),-c(11:14)]
+poly.cor - subset.rho
+
+
+
+@
+
+Not sure what's wrong.
 
 \item %11
 {\it Fit an SEM that retains the same latent variable construction as in the CFA but that also uses bmi, anx, and wsb as exogenous variables that explain both of the latent traits. Fit the model and report the summary. Also make a path diagram.}
