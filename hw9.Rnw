@@ -140,7 +140,7 @@ summary(het.cfa, fit.measures = TRUE)
 {\it Make a path diagram of the resulting model.}
 <<paths, cache=TRUE, dependson='cfa'>>=
 par(mar = c(0, 0, 0, 0))
-semPaths(cfa.model1, what = 'par', edge.label.cex = 1.5, sizeMan = 10, sizeLat = 12)
+semPaths(het.cfa, "par", edge.label.cex = 1.5, sizeMan = 10, sizeLat = 12)
 @
 
 \item %7
@@ -151,8 +151,10 @@ semPaths(cfa.model1, what = 'par', edge.label.cex = 1.5, sizeMan = 10, sizeLat =
 \item %a
 With a \(\chi^2_{34}\) test statistic of 114.706 and \(\text{p-value}<0.001\), there is strong evidence that a more complex model is needed to accurately reconstruct the sample correlation matrix.
 
+How could we assess kurtosis? Lots of kurtosis-> this is a bad measure.
+
 \item %b
-The root mean square error of approximation is estimated to be 0.099. This exceeds the rule-of-thumb threshold of 0.05, suggesting that there is room for improvement in the model fit.
+The root mean square error of approximation is estimated to be 0.099. This exceeds the rule-of-thumb threshold of 0.05, suggesting that there is room for improvement in the model fit. {\it I actually have a note saying the RMSEA is not the root mean square index.}
 
 \end{enumerate}
 
