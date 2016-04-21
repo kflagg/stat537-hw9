@@ -138,11 +138,6 @@ summary(het.cfa, fit.measures = TRUE)
 
 \item %6
 {\it Make a path diagram of the resulting model.}
-<<paths, cache=TRUE, dependson='het.plot'>>=
-semPaths(het.cfa, "par")
-
-@
-
 <<paths, cache=TRUE, dependson='cfa'>>=
 par(mar = c(0, 0, 0, 0))
 semPaths(cfa.model1, what = 'par', edge.label.cex = 1.5, sizeMan = 10, sizeLat = 12)
