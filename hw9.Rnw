@@ -161,11 +161,21 @@ The root mean square error of approximation is estimated to be 0.099. This excee
 \item %8
 {\it Discuss all the loadings -- are there any that potentially could be dropped?}
 
+All the loadings have associated pvalues of less than 0.001, indicating strong evidence they are not zero. None could potentially be dropped. (EH 211)
+
 \item %9
 {\it Report and discuss the disattenuated correlation of the latent traits. Does this make sense in this application?}
 
+The correlation between the true preoccupied with food variable and the true other variable is 0.65. It makes sense that the true preoccupied latent trait would be moderately positively correlated with the other latent trait because the variables that loaded on the other latent trait were {\texttt ow, avd, glt, occ, brn, fat}, and {\texttt emp}. These manifest variables also desribe traits of people that may be overly conscious of their weight.
+
 \item %10
 {\it Add the other three variables to your correlation matrix using appropriate correlation measures. Note the types of correlations you are using (you can discuss this generally). Also update your correlation matrix plot using this matrix.}
+
+<<mixedcor>>=
+mixed.cor(ead_c[,-1])
+@
+
+Why did this output a NULL line?
 
 \item %11
 {\it Fit an SEM that retains the same latent variable construction as in the CFA but that also uses bmi, anx, and wsb as exogenous variables that explain both of the latent traits. Fit the model and report the summary. Also make a path diagram.}
