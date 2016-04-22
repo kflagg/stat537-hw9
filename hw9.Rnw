@@ -172,7 +172,7 @@ The correlation between the true preoccupied with food variable and the true oth
 \item %10
 {\it Add the other three variables to your correlation matrix using appropriate correlation measures. Note the types of correlations you are using (you can discuss this generally). Also update your correlation matrix plot using this matrix.}
 
-<<mixedcor, cache = TRUE>>=
+<<mixedcor, warning = FALSE, cache = TRUE, dependson = 'cor.plot', fig.height=6, out.height='6in'>>=
 ead_c1 <- ead_c[,-1]
 ead_c1$ow <- ordered(ead_c$ow)
 ead_c1$avoid <- ordered(ead_c$avoid)
@@ -190,7 +190,7 @@ ead_c1$anx <- ordered(ead_c$anx)
 
 het1 <- hetcor(ead_c1, use = "pairwise")
 het1
-cor.plot(mat.sort(het1))
+cor.plot(mat.sort(het1$correlations))
 @
 
 We used the {\texttt hetcor} function from the {\texttt polycor} package to re-calculate the correlation matrix with all 14 variables. The function used polychoric correlations for all pairs of variables except variables paired with {\texttt bmi}, in which polyserial correlation was used.
