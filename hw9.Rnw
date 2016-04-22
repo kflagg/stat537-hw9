@@ -208,8 +208,27 @@ Not sure what's wrong.
 \item %11
 {\it Fit an SEM that retains the same latent variable construction as in the CFA but that also uses bmi, anx, and wsb as exogenous variables that explain both of the latent traits. Fit the model and report the summary. Also make a path diagram.}
 
+<<sem>>=
+sem.model1 <- '
+  PreoccupiedWithFood =~ food + control + time + bmi + anx + wsb
+  Other =~ ow + avoid + guilt + occ + burn + fat + empty + bmi + anx + wsb
+'
+
+lavaanfit <- sem(sem.model1, data=ead_c[,-1], std.lv=TRUE)
+summary(lavaanfit)
+semPaths(lavaanfit, "std", layout="tree",rotation=1)
+
+
+@
+
+It looks like the exogenous variables I included are ``being explained" and not ``explaining" by the direction of the arrows. Also, I did not specify a regression model in the lavaanfit object, should I have? The normality assumption does not seem reasonable for these data.
+
 \item %12
 {\it Report the evidence and discuss the interpretation of the two tests for the paths that relate bmi to each of the latent traits.}
+
+Based on a z statistic of 1.564 and an associated pvalue of 0.118, there is little evidence that __ {\texttt bmi} is ___ to the {\texttt preoccupied with food} latent variable.
+
+Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is strong evidence that __ {\texttt bmi} is ___ to the {\texttt other} latent variable.
 
 \item %13
 {\it Generally explain what this model is exploring.}
