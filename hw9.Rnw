@@ -9,7 +9,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \lhead{Stat 537 Homework 9}
-\chead{April 21, 2016}
+\chead{April 22, 2016}
 \rhead{Andrea Mack and Kenny Flagg}
 \setlength{\headheight}{18pt}
 \setlength{\headsep}{2pt}
@@ -150,10 +150,10 @@ semPaths(het.cfa, "par", edge.label.cex = 1.2, sizeMan = 10, sizeLat = 12)
 \begin{enumerate}
 
 \item %a
-With a \(\chi^2_{34}\) test statistic of 114.706 and \(\text{p-value}<0.001\), there is strong evidence that a more complex model is needed to accurately reconstruct the sample correlation matrix.
+With a \(\chi^2_{34}\) test statistic of 114.706 and \(\text{pvalue}<0.001\), there is strong evidence that a more complex model is needed to accurately reconstruct the sample correlation matrix. However, the sample is large relative to the number of parameters the model is estimating, so this test rejects too often.
 
 \item %b
-The CFI is 0.953. This tells us that this model does a very good job of explaining the variation in the manifest variables, although the CFI contradicts the result of the goodness-of-fit test. It seems that, given the amount of information in the dataset, there is room for improvement in the model fit.
+The CFI is 0.953. This tells us that this model does a very good job of explaining the variation in the manifest variables.
 
 \end{enumerate}
 
@@ -166,7 +166,7 @@ All the loadings have associated pvalues of less than 0.001, indicating strong e
 \item %9
 {\it Report and discuss the disattenuated correlation of the latent traits. Does this make sense in this application?}
 
-The correlation between the true preoccupied with food variable and the true health feelings variable is 0.65. It makes sense that the true preoccupied latent trait would be moderately positively correlated with the health feelings latent trait because the variables that loaded on the health feelings latent trait were {\texttt ow, avd, glt, occ, brn, fat}, and {\texttt emp}. These manifest variables also desribe traits of people that may be overly conscious of their weight.
+The correlation between the true preoccupied with food variable and the true health feelings variable is 0.65. It makes sense that the true preoccupied latent trait would have a moderate positive correlation with the health feelings latent trait because the variables that loaded on the health feelings latent trait were {\texttt ow, avd, glt, occ, brn, fat}, and {\texttt emp}. These manifest variables also desribe traits of people that may be overly conscious of their weight.
 
 \item %10
 {\it Add the other three variables to your correlation matrix using appropriate correlation measures. Note the types of correlations you are using (you can discuss this generally). Also update your correlation matrix plot using this matrix.}
@@ -192,7 +192,7 @@ het1
 cor.plot(mat.sort(het1$correlations))
 @
 
-We used the {\texttt hetcor} function from the {\texttt polycor} package to re-calculate the correlation matrix with all 14 variables. The function used polychoric correlations for all pairs of variables except variables paired with {\texttt bmi}, in which polyserial correlation was used.
+We used the {\texttt hetcor} function from the {\texttt polycor} package to re-calculate the correlation matrix with all 14 variables. Except for {\texttt bmi}, all of the variables are categorical. The function used polychoric correlations for all pairs of categorical variables. All pairings {\texttt bmi} involve one categorical and one quantitative variable, so polyserial correlation was used.
 
 \item %11
 {\it Fit an SEM that retains the same latent variable construction as in the CFA but that also uses bmi, anx, and wsb as exogenous variables that explain both of the latent traits. Fit the model and report the summary. Also make a path diagram.}
@@ -215,12 +215,14 @@ semPaths(lavaanfit, "std", layout="tree",rotation=1, edge.label.cex = 1.2, sizeM
 \item %12
 {\it Report the evidence and discuss the interpretation of the two tests for the paths that relate bmi to each of the latent traits.}
 
-Based on a z statistic of 1.564 and an associated pvalue of 0.118, there is little evidence that \verb|__| {\texttt bmi} is \verb|___| to the {\texttt preoccupied with food} latent variable.
+Based on a z statistic of 3.767 and an associated \(\text{pvalue}<0.001\), there is very strong evidence that {\texttt bmi} can be used to predict an individual's level of preoccupation with food after accounting for {\texttt anx} and {\texttt wsb}.
 
-Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is strong evidence that \verb|__| {\texttt bmi} is \verb|___| to the {\texttt HealthFeelings} latent variable.
+Based on a z statistic of 4.911 and an associated pvalue of 0.001, there is strong evidence that {\texttt bmi} is useful for predicting and person's {\texttt HealthFeelings} score after accounting for {\texttt anx} and {\texttt wsb}.
 
 \item %13
 {\it Generally explain what this model is exploring.}
+
+The model tells us what information goes into a person's preoccupied with food trait and general health feelings trait. Additionally, it tells us how these traits are related to things like {\texttt bmi}, anxiety level, and {\texttt wsb}, which are things that may be more easily measured by a health professional than the endogenous manifest variables. It also tells us the strength and direction of the association between the person's actual preoccupation with food and their general health feelings.
 
 \end{enumerate}
 
@@ -251,12 +253,6 @@ Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is stro
 <<paths, echo=TRUE, eval=FALSE>>=
 @
 
-\subsection*{Problem 7}
-
-\subsection*{Problem 8}
-
-\subsection*{Problem 9}
-
 \subsection*{Problem 10}
 
 <<mixedcor, echo=TRUE, eval=FALSE>>=
@@ -268,9 +264,5 @@ Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is stro
 
 <<sem, echo=TRUE, eval=FALSE>>=
 @
-
-\subsection*{Problem 12}
-
-\subsection*{Problem 13}
 
 \end{document}
