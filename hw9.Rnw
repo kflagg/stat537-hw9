@@ -131,7 +131,7 @@ For weakly correlated variables (with correlations under 0.4), the Pearson and p
 # eat21 is time, eat3 is food, eat18 is control
 cfa.model1 <- '
   PreoccupiedWithFood =~ food + control + time
-  Other =~ ow + avoid + guilt + occ + burn + fat + empty
+  HealthFeelings =~ ow + avoid + guilt + occ + burn + fat + empty
 '
 het.cfa <- cfa(model = cfa.model1, sample.cov = as.matrix(het), sample.nobs = nrow(edo), std.lv = TRUE)
 summary(het.cfa, fit.measures = TRUE)
@@ -141,7 +141,7 @@ summary(het.cfa, fit.measures = TRUE)
 {\it Make a path diagram of the resulting model.}
 <<paths, cache=TRUE, dependson='cfa'>>=
 par(mar = c(0, 0, 0, 0))
-semPaths(het.cfa, "par", edge.label.cex = 1.5, sizeMan = 10, sizeLat = 12)
+semPaths(het.cfa, "par", edge.label.cex = 1.2, sizeMan = 10, sizeLat = 12)
 @
 
 \item %7
@@ -152,22 +152,21 @@ semPaths(het.cfa, "par", edge.label.cex = 1.5, sizeMan = 10, sizeLat = 12)
 \item %a
 With a \(\chi^2_{34}\) test statistic of 114.706 and \(\text{p-value}<0.001\), there is strong evidence that a more complex model is needed to accurately reconstruct the sample correlation matrix.
 
-How could we assess kurtosis? Lots of kurtosis-> this is a bad measure.
-
 \item %b
-The root mean square error of approximation is estimated to be 0.099. This exceeds the rule-of-thumb threshold of 0.05, suggesting that there is room for improvement in the model fit. {\it I actually have a note saying the RMSEA is not the root mean square index.}
+The CFI is 0.953. This tells us that this model does a very good job of explaining the variation in the manifest variables, although the CFI contradicts the result of the goodness-of-fit test. It seems that, given the amount of information in the dataset, there is room for improvement in the model fit.
 
 \end{enumerate}
 
 \item %8
 {\it Discuss all the loadings -- are there any that potentially could be dropped?}
 
-All the loadings have associated pvalues of less than 0.001, indicating strong evidence they are not zero. None could potentially be dropped. (EH 211)
+All the loadings have associated pvalues of less than 0.001, indicating strong evidence they are not zero. Base on this, there is no reason to drop any of the paths from the model, but we should consider adding complexity to the model to better explain the structure of the data.
 
+\pagebreak
 \item %9
 {\it Report and discuss the disattenuated correlation of the latent traits. Does this make sense in this application?}
 
-The correlation between the true preoccupied with food variable and the true other variable is 0.65. It makes sense that the true preoccupied latent trait would be moderately positively correlated with the other latent trait because the variables that loaded on the other latent trait were {\texttt ow, avd, glt, occ, brn, fat}, and {\texttt emp}. These manifest variables also desribe traits of people that may be overly conscious of their weight.
+The correlation between the true preoccupied with food variable and the true health feelings variable is 0.65. It makes sense that the true preoccupied latent trait would be moderately positively correlated with the health feelings latent trait because the variables that loaded on the health feelings latent trait were {\texttt ow, avd, glt, occ, brn, fat}, and {\texttt emp}. These manifest variables also desribe traits of people that may be overly conscious of their weight.
 
 \item %10
 {\it Add the other three variables to your correlation matrix using appropriate correlation measures. Note the types of correlations you are using (you can discuss this generally). Also update your correlation matrix plot using this matrix.}
@@ -195,40 +194,30 @@ cor.plot(mat.sort(het1$correlations))
 
 We used the {\texttt hetcor} function from the {\texttt polycor} package to re-calculate the correlation matrix with all 14 variables. The function used polychoric correlations for all pairs of variables except variables paired with {\texttt bmi}, in which polyserial correlation was used.
 
-<<compare>>=
-subset.rho <- mix.cor$rho[-c(11:14),-c(11:14)]
-poly.cor - subset.rho
-
-
-
-@
-
-Not sure what's wrong.
-
 \item %11
 {\it Fit an SEM that retains the same latent variable construction as in the CFA but that also uses bmi, anx, and wsb as exogenous variables that explain both of the latent traits. Fit the model and report the summary. Also make a path diagram.}
 
 <<sem>>=
 sem.model1 <- '
-  PreoccupiedWithFood =~ food + control + time + bmi + anx + wsb
-  Other =~ ow + avoid + guilt + occ + burn + fat + empty + bmi + anx + wsb
+  PreoccupiedWithFood =~ food + control + time
+  HealthFeelings =~ ow + avoid + guilt + occ + burn + fat + empty
+  PreoccupiedWithFood ~ bmi + anx + wsb
+  HealthFeelings ~ bmi + anx + wsb
 '
 
 lavaanfit <- sem(sem.model1, data=ead_c[,-1], std.lv=TRUE)
 summary(lavaanfit)
-semPaths(lavaanfit, "std", layout="tree",rotation=1)
+semPaths(lavaanfit, "std", layout="tree",rotation=1, edge.label.cex = 1.2, sizeMan = 10, sizeLat = 12)
 
 
 @
 
-It looks like the exogenous variables I included are ``being explained" and not ``explaining" by the direction of the arrows. Also, I did not specify a regression model in the lavaanfit object, should I have? The normality assumption does not seem reasonable for these data.
-
 \item %12
 {\it Report the evidence and discuss the interpretation of the two tests for the paths that relate bmi to each of the latent traits.}
 
-Based on a z statistic of 1.564 and an associated pvalue of 0.118, there is little evidence that __ {\texttt bmi} is ___ to the {\texttt preoccupied with food} latent variable.
+Based on a z statistic of 1.564 and an associated pvalue of 0.118, there is little evidence that \verb|__| {\texttt bmi} is \verb|___| to the {\texttt preoccupied with food} latent variable.
 
-Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is strong evidence that __ {\texttt bmi} is ___ to the {\texttt other} latent variable.
+Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is strong evidence that \verb|__| {\texttt bmi} is \verb|___| to the {\texttt HealthFeelings} latent variable.
 
 \item %13
 {\it Generally explain what this model is exploring.}
@@ -259,6 +248,9 @@ Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is stro
 
 \subsection*{Problem 6}
 
+<<paths, echo=TRUE, eval=FALSE>>=
+@
+
 \subsection*{Problem 7}
 
 \subsection*{Problem 8}
@@ -267,7 +259,15 @@ Based on a z statistic of 3.347 and an associated pvalue of 0.001, there is stro
 
 \subsection*{Problem 10}
 
+<<mixedcor, echo=TRUE, eval=FALSE>>=
+@
+<<compare, echo=TRUE, eval=FALSE>>=
+@
+
 \subsection*{Problem 11}
+
+<<sem, echo=TRUE, eval=FALSE>>=
+@
 
 \subsection*{Problem 12}
 
